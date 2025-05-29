@@ -1,5 +1,9 @@
 package com.elif.flightsearch.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,14 +24,21 @@ import lombok.NoArgsConstructor;
  * - price: Ticket price for the flight.
  * - available: Indicates if the flight has available seats.
  */
+
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Flight {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String flightNumber;
-    private String from;
-    private String to;
-    private String date; // ISO: 2025-06-01
+    private String fromAirport;
+    private String toAirport;
+    private String date;
     private double price;
     private boolean available;
 }

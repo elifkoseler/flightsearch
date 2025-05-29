@@ -1,6 +1,7 @@
 package com.elif.flightsearch.service;
 
 import com.elif.flightsearch.model.Flight;
+import com.elif.flightsearch.repository.FlightRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,14 +16,36 @@ import java.util.List;
  *   This method retrieves a list of flights matching the provided source, destination, and date.
  *   Each flight includes details such as the flight number, price, and availability status.
  */
+
 @Service
 public class FlightSearchService {
 
-    public List<Flight> searchFlights(String from, String to, String date) {
-        return List.of(
-                new Flight("TK101", from, to, date, 1200.0, true),
-                new Flight("TK102", from, to, date, 980.0, true),
-                new Flight("TK103", from, to, date, 0.0, false) // fully booked
-        );
+    private final FlightRepository flightRepository;
+
+    public FlightSearchService(FlightRepository flightRepository) {
+        this.flightRepository = flightRepository;
     }
+
+    public List<Flight> searchFlights(String from, String to, String date) {
+        return flightRepository.findByFromAirportAndToAirportAndDate(from, to, date);
+    }
+
+    public Flight saveFlight(Flight flight) {
+        return flightRepository.save(flight);
+    }
+
 }
+
+
+// For static uses.
+//@Service
+//public class FlightSearchService {
+//
+//    public List<Flight> searchFlights(String from, String to, String date) {
+//        return List.of(
+//                new Flight("TK101", from, to, date, 1200.0, true),
+//                new Flight("TK102", from, to, date, 980.0, true),
+//                new Flight("TK103", from, to, date, 0.0, false) // fully booked
+//        );
+//    }
+//}
